@@ -3,6 +3,7 @@ package cipriano.util;
 import cipriano.model.Estado;
 import cipriano.model.Transicao;
 import cipriano.util.Enums.EstadoEnum;
+import cipriano.util.Excecoes.BreakException;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
@@ -82,7 +83,4 @@ public class Interpretador {
 
         return estado;
     }
-}
-
-class BreakException extends RuntimeException {
 }
