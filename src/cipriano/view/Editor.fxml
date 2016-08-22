@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="borderMenu" prefHeight="768.0" prefWidth="1024.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cipriano.view.EditorController">
+         <top>
+            <MenuBar BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="Arquivo">
+                  <items>
+                  <MenuItem mnemonicParsing="false" onAction="#fileClose" text="Fechar" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Ação">
+                  <items>
+                  <MenuItem mnemonicParsing="false" onAction="#compileAndRun" text="Compilar e executar" />
+                  </items>
+                </Menu>
+            <Menu mnemonicParsing="false" text="Macros">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#mockAFND" text="Mock a AFND" />
+              </items>
+            </Menu>
+                <Menu mnemonicParsing="false" text="Ajuda">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#helpAbout" text="Sobre" />
+                      <MenuItem mnemonicParsing="false" onAction="#ajuda" text="Manual" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+   <bottom>
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="TOP_RIGHT">
+         <children>
+            <Label fx:id="labelMessage">
+               <font>
+                  <Font size="13.0" />
+               </font></Label>
+         </children>
+      </HBox>
+   </bottom>
+   <left>
+      <TextArea fx:id="textArea" prefHeight="643.0" prefWidth="477.0" promptText="Entrada" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextArea>
+   </left>
+   <right>
+      <TextArea fx:id="textAreaResultado" editable="false" minHeight="400.0" minWidth="200.0" prefHeight="643.0" prefWidth="464.0" promptText="Resultado" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextArea>
+   </right>
+   <center>
+      <VBox alignment="CENTER" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button minHeight="50.0" minWidth="200.0" mnemonicParsing="false" onAction="#analisaSemantica" prefHeight="98.0" prefWidth="189.0" text="Compilar" />
+            <Button alignment="CENTER" contentDisplay="RIGHT" defaultButton="true" minHeight="150.0" minWidth="200.0" mnemonicParsing="false" onAction="#compileAndRun" prefHeight="96.0" prefWidth="205.0" text="Compilar e executar" textAlignment="RIGHT" underline="true">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
+            <CheckBox fx:id="checkBox" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="93.0" prefWidth="193.0" selected="true" text="Inicializar Registradores com 0" textAlignment="CENTER" />
+         </children>
+      </VBox>
+   </center>
+      </BorderPane>
