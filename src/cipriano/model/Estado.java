@@ -9,6 +9,10 @@ public class Estado {
     private String nome;
     private EstadoEnum estado;
 
+    public Estado() {
+
+    }
+
     public String getNome() {
         return nome;
     }

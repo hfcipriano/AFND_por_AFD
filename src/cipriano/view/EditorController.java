@@ -1,7 +1,9 @@
 package cipriano.view;
 
+import cipriano.Principal;
 import cipriano.util.AnalisadorSemantico;
 import cipriano.util.Excecoes.SemanticException;
+import cipriano.util.Interpretador;
 import javafx.scene.control.*;
 
 import javafx.fxml.FXML;
@@ -21,9 +23,6 @@ public class EditorController {
 
 	@FXML
 	Label labelMessage;
-
-	@FXML
-	CheckBox checkBox;
 
 	private cipriano.Principal principal;
 
@@ -51,22 +50,13 @@ public class EditorController {
 	}
 
 	@FXML
-	public void compileAndRun(){
+	public void converter(){
 		try{
 			AnalisadorSemantico.analisa(textArea.getParagraphs());
 			labelMessage.setText("Compilado com sucesso!");
 			//TODO: IMPLEMENTAR
+			Interpretador.popularTransicoes(textArea.getParagraphs());
 		}catch (RuntimeException e){
-			labelMessage.setText(e.getMessage());
-		}
-	}
-
-	@FXML
-	public void analisaSemantica(){
-		try{
-			AnalisadorSemantico.analisa(textArea.getParagraphs());
-			labelMessage.setText("Compilado com sucesso!");
-		}catch (SemanticException e){
 			labelMessage.setText(e.getMessage());
 		}
 	}
@@ -83,7 +73,7 @@ public class EditorController {
 		textArea.setText(sb);
 	}
 
-	public void setPrincipal(cipriano.Principal principal) {
+	public void setPrincipal(Principal principal) {
 		this.principal = principal;
 	}
 }

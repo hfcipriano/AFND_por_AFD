@@ -19,7 +19,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Ação">
                   <items>
-                  <MenuItem mnemonicParsing="false" onAction="#compileAndRun" text="Compilar e executar" />
+                  <MenuItem mnemonicParsing="false" onAction="#converter" text="Converter" />
                   </items>
                 </Menu>
             <Menu mnemonicParsing="false" text="Macros">
@@ -63,12 +63,10 @@
    <center>
       <VBox alignment="CENTER" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <Button minHeight="50.0" minWidth="200.0" mnemonicParsing="false" onAction="#analisaSemantica" prefHeight="98.0" prefWidth="189.0" text="Compilar" />
-            <Button alignment="CENTER" contentDisplay="RIGHT" defaultButton="true" minHeight="150.0" minWidth="200.0" mnemonicParsing="false" onAction="#compileAndRun" prefHeight="96.0" prefWidth="205.0" text="Compilar e executar" textAlignment="RIGHT" underline="true">
+            <Button alignment="CENTER" contentDisplay="RIGHT" defaultButton="true" minHeight="150.0" minWidth="200.0" mnemonicParsing="false" onAction="#converter" prefHeight="96.0" prefWidth="205.0" text="Converter" textAlignment="RIGHT" underline="true">
                <font>
                   <Font size="18.0" />
                </font></Button>
-            <CheckBox fx:id="checkBox" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="93.0" prefWidth="193.0" selected="true" text="Inicializar Registradores com 0" textAlignment="CENTER" />
          </children>
       </VBox>
    </center>
