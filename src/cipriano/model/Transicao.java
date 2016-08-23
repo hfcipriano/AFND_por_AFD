@@ -1,14 +1,14 @@
 package cipriano.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by henrique on 22/08/16.
  */
 public class Transicao {
     private Estado atual;
-    private List<Estado> proximoList = new ArrayList<>();
+    private Set<Estado> proximoList = new HashSet<>();
     private String caractere;
 
     public Estado getAtual() {
@@ -19,11 +19,11 @@ public class Transicao {
         this.atual = atual;
     }
 
-    public List<Estado> getProximoList() {
+    public Set<Estado> getProximoList() {
         return proximoList;
     }
 
-    public void setProximoList(List<Estado> proximoList) {
+    public void setProximoList(Set<Estado> proximoList) {
         this.proximoList = proximoList;
     }
 
@@ -33,5 +33,26 @@ public class Transicao {
 
     public void setCaractere(String caractere) {
         this.caractere = caractere;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Transicao transicao = (Transicao) o;
+
+        if (!atual.equals(transicao.atual)) return false;
+        if (!proximoList.equals(transicao.proximoList)) return false;
+        return caractere.equals(transicao.caractere);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = atual.hashCode();
+        result = 31 * result + proximoList.hashCode();
+        result = 31 * result + caractere.hashCode();
+        return result;
     }
 }

@@ -2,11 +2,11 @@ package cipriano.view;
 
 import cipriano.Principal;
 import cipriano.util.AnalisadorSemantico;
-import cipriano.util.Excecoes.SemanticException;
 import cipriano.util.Interpretador;
-import javafx.scene.control.*;
-
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 
 
@@ -54,8 +54,8 @@ public class EditorController {
 		try{
 			AnalisadorSemantico.analisa(textArea.getParagraphs());
 			labelMessage.setText("Compilado com sucesso!");
-			//TODO: IMPLEMENTAR
-			Interpretador.popularTransicoes(textArea.getParagraphs());
+			Interpretador.converter(textArea.getParagraphs());
+
 		}catch (RuntimeException e){
 			labelMessage.setText(e.getMessage());
 		}
