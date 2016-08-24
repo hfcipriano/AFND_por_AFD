@@ -47,4 +47,9 @@ public class Estado {
         result = 31 * result + (estado != null ? estado.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
 }

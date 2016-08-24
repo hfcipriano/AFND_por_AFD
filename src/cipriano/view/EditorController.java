@@ -54,7 +54,8 @@ public class EditorController {
 		try{
 			AnalisadorSemantico.analisa(textArea.getParagraphs());
 			labelMessage.setText("Compilado com sucesso!");
-			Interpretador.converter(textArea.getParagraphs());
+			String grafo = Interpretador.converter(textArea.getParagraphs());
+			textAreaResultado.setText(grafo);
 
 		}catch (RuntimeException e){
 			labelMessage.setText(e.getMessage());
