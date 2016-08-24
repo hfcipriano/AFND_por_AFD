@@ -1,8 +1,5 @@
 package cipriano;
 
-import java.io.IOException;
-import java.util.List;
-
 import cipriano.view.EditorController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
 * Classe que gerencia o módulo do Java Fx.
@@ -37,7 +36,7 @@ public class Principal extends Application {
     private void initEditor() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(cipriano.Principal.class.getResource("view/Editor.fxml"));
+            loader.setLocation(getClass().getResource("view/Editor.fxml"));
             BorderPane painel = (BorderPane) loader.load();
 
             Scene scene = new Scene(painel);
