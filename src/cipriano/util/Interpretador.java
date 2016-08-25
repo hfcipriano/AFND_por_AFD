@@ -23,7 +23,7 @@ public class Interpretador {
      * @param paragrafos
      */
     public static String converter(ObservableList<CharSequence> paragrafos) {
-        Set<Transicao> transicaoElegivelSet = new HashSet<>(serializarTransicoes(paragrafos));
+        Set<Transicao> transicaoElegivelSet = serializarTransicoes(paragrafos);
         return deserializarTransicoes(gerarGrafo(transicaoElegivelSet));
     }
 
@@ -47,8 +47,9 @@ public class Interpretador {
     /**
      * Gera um grafo determinístico apartir da lista de transições elegíveis
      */
-    private static Set<Transicao> gerarGrafo(Set<Transicao> transicaoElegivelSet) {
-        new HashSet<>(transicaoElegivelSet).forEach(transicao -> {
+    private static Set<Transicao> gerarGrafo(Set<Transicao> transicaoSet) {
+        Set<Transicao> transicaoElegivelSet = new HashSet<>(transicaoSet);
+        transicaoSet.forEach(transicao -> {
             persistirTransicaoElegivel(transicao, transicaoElegivelSet);
         });
         return transicaoElegivelSet;
