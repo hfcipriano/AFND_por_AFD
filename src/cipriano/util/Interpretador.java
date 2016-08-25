@@ -31,7 +31,7 @@ public class Interpretador {
         StringBuilder grafo = new StringBuilder();
         grafo.append(transicaoSet.parallelStream()
                 .filter(t -> t.getAtual().getEstado().equals(EstadoEnum.INICIAL) || t.getAtual().getEstado().equals(EstadoEnum.AMBOS))
-                .findAny()
+                .findFirst()
                 .orElseGet(() -> {
                     throw new InterpreterException("Estado inicial não encontrado");
                 })
@@ -56,14 +56,7 @@ public class Interpretador {
     }
 
     private static void persistirTransicaoElegivel(Transicao transicao, Set<Transicao> transicaoSet) {
-        boolean contem = false;
-        for(Transicao t : transicaoSet){
-            if(t.getAtual().getNome().equals(transicao.getProximoEstadoNome())){
-                contem = true;
-                break;
-            }
-        }
-        if(!contem) {
+        if(!transicaoSet.stream().anyMatch(t -> t.getAtual().getNome().equals(transicao.getProximoEstadoNome()))) {
             List<String> nomes = new ArrayList<>();
             transicao.getProximoList().forEach(estado -> nomes.add(estado.getNome()));
 
@@ -77,26 +70,13 @@ public class Interpretador {
     }
 
     private static Transicao obterTransicaoElegivelPorNome(String nome, Set<Transicao> transicaoSet) {
-        for(Transicao transicaoElegivel : transicaoSet){
-            if(transicaoElegivel.getAtual().getNome().equals(nome)){
-                return transicaoElegivel;
-            }
-        }
-        for(Transicao transicao : transicaoList){
-            if(transicao.getAtual().getNome().equals(nome)){
-                return transicao;
-            }
-        }
-
-        for(Transicao transicao : transicaoSet){
-            if(transicao.getAtual().getNome().equals(nome)){
-                return transicao;
-            }
-        }
-
-        return new Transicao();
-
-        //return transicaoElegivelList.stream().filter(transicao -> transicao.getAtual().getNome().equals(nome)).findFirst().orElse(transicaoList.stream().filter(transicao -> transicao.getAtual().getNome().equals(nome)).findFirst().get());
+        return transicaoSet.stream()
+                .filter(transicao -> transicao.getAtual().getNome().equals(nome))
+                .findFirst()
+                .orElse(transicaoList.stream()
+                        .filter(transicao -> transicao.getAtual().getNome().equals(nome))
+                        .findFirst()
+                        .orElse(new Transicao()));
     }
 
     /**
