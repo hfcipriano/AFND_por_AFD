@@ -15,15 +15,21 @@ public class GraphvizUtil {
         transicaoSet.forEach(transicao -> transicaoMap.put(transicao.toString(), transicao));
 
         Digraph digraph = new Digraph("G");
+        digraph.attr("rankdir").value("LR");
         transicaoMap.forEach((s, transicao) -> {
             Node inicio = null;
-            if(transicao.getAtual().getEstado().equals(EstadoEnum.INICIAL)){
-                //inicio = digraph.addNode("");
+            if(transicao.getAtual().getEstado().equals(EstadoEnum.INICIAL) && !digraph.containsNode(new Node("_start_", digraph))){
+                inicio = digraph.addNode("_start_");
+                inicio.attr("shape").value("none");
             }
             Node de = digraph.addNode(transicao.getAtual().getNome());
             Node para = digraph.addNode(transicao.getProximoEstadoNome());
             Edge edge = digraph.addEdge(de, para);
-            edge.attrs().set("label", new Attr(edge.attrs(), "label", transicao.getCaractere()));
+            edge.attr("label").value(transicao.getCaractere());
+
+            if(transicao.getAtual().getEstado().equals(EstadoEnum.FINAL) || transicao.getAtual().getEstado().equals(EstadoEnum.AMBOS)){
+                de.attr("shape").value("doublecircle");
+            }
             if(inicio != null){
                 digraph.addEdge(inicio, de);
             }
