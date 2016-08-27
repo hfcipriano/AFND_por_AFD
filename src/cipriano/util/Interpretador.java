@@ -5,6 +5,10 @@ import cipriano.model.Transicao;
 import cipriano.util.Enums.EstadoEnum;
 import cipriano.util.Excecoes.InterpreterException;
 import javafx.collections.ObservableList;
+import javagraphviz.src.main.java.com.couggi.javagraphviz.Digraph;
+import javagraphviz.src.main.java.com.couggi.javagraphviz.GraphvizEngine;
+import javagraphviz.src.main.java.com.couggi.javagraphviz.Node;
+import javagraphviz.src.main.java.com.couggi.javagraphviz.SubGraph;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,36 +26,17 @@ public class Interpretador {
      * Converte o AFND em AFD
      * @param paragrafos
      */
-    public static String converter(ObservableList<CharSequence> paragrafos) {
+    public static void converter(ObservableList<CharSequence> paragrafos) {
         Set<Transicao> transicaoElegivelSet = serializarTransicoes(paragrafos);
-        return deserializarTransicoes(gerarGrafo(transicaoElegivelSet));
-    }
-
-    private static String deserializarTransicoes(Set<Transicao> transicaoSet) {
-        StringBuilder grafo = new StringBuilder();
-        grafo.append(transicaoSet.parallelStream()
-                .filter(t -> t.getAtual().getEstado().equals(EstadoEnum.INICIAL) || t.getAtual().getEstado().equals(EstadoEnum.AMBOS))
-                .findFirst()
-                .orElseGet(() -> {
-                    throw new InterpreterException("Estado inicial não encontrado");
-                })
-                .getAtual().getNome()).append("\n");
-
-        transicaoSet.parallelStream().filter(t -> t.getAtual().getEstado().equals(EstadoEnum.FINAL) || t.getAtual().getEstado().equals(EstadoEnum.AMBOS))
-                .forEach(t -> grafo.append(t.getAtual().getNome()).append(" "));
-        grafo.append("\n");
-        transicaoSet.forEach(transicao -> grafo.append(transicao).append("\n"));
-        return grafo.toString();
+        GraphvizUtil.gerarGrafo((gerarTransicoesConvertidas(transicaoElegivelSet)));
     }
 
     /**
      * Gera um grafo determinístico apartir da lista de transições elegíveis
      */
-    private static Set<Transicao> gerarGrafo(Set<Transicao> transicaoSet) {
+    private static Set<Transicao> gerarTransicoesConvertidas(Set<Transicao> transicaoSet) {
         Set<Transicao> transicaoElegivelSet = new HashSet<>(transicaoSet);
-        transicaoSet.forEach(transicao -> {
-            persistirTransicaoElegivel(transicao, transicaoElegivelSet);
-        });
+        transicaoSet.forEach(transicao -> persistirTransicaoElegivel(transicao, transicaoElegivelSet));
         return transicaoElegivelSet;
     }
 
@@ -117,7 +102,7 @@ public class Interpretador {
 
     private static Estado defineEstado(String ...nomes) {
         boolean estadoFinalBool = false;
-        boolean estadoInicialBool = false;
+        boolean estadoInicialBool = true;
         Estado estado = new Estado();
 
         for(String nome : nomes){
@@ -128,7 +113,7 @@ public class Interpretador {
                 estado.setNome(nome);
             }
             estadoFinalBool = estadoFinalBool || estadoFinalList.contains(nome);
-            estadoInicialBool = estadoInicialBool || estadoInicial.equals(nome);
+            estadoInicialBool = estadoInicial.equals(nome) && estadoInicialBool;
         }
 
         if(estadoInicialBool && estadoFinalBool){
