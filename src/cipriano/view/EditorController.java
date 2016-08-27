@@ -24,7 +24,7 @@ public class EditorController {
 	@FXML
 	Label labelMessage;
 
-	private cipriano.Principal principal;
+	private Principal principal;
 
 	@FXML
 	public void fileClose(){
@@ -55,7 +55,7 @@ public class EditorController {
 			AnalisadorSemantico.analisa(textArea.getParagraphs());
 			labelMessage.setText("Compilado com sucesso!");
 			Interpretador.converter(textArea.getParagraphs());
-
+			principal.opentGrafoViewer();
 		}catch (RuntimeException e){
 			labelMessage.setText(e.getMessage());
 		}

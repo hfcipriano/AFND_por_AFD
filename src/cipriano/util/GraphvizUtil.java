@@ -37,7 +37,7 @@ public class GraphvizUtil {
 
         GraphvizEngine engine = new GraphvizEngine(digraph);
         engine.addType("png");
-        engine.toFilePath("helloworld.png");
+        engine.toFilePath("out/production/AFND_por_AFD/cipriano/resources/grafo.png");
         engine.output();
     }
 }

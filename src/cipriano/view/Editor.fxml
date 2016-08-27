@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderMenu" prefHeight="768.0" prefWidth="1024.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cipriano.view.EditorController">
+<BorderPane fx:id="borderMenu" prefHeight="512.0" prefWidth="768.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cipriano.view.EditorController">
          <top>
             <MenuBar BorderPane.alignment="CENTER">
               <menus>
@@ -39,34 +39,25 @@
    <bottom>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="TOP_RIGHT">
          <children>
-            <Label fx:id="labelMessage">
+            <Label fx:id="labelMessage" prefHeight="110.0" prefWidth="270.0">
                <font>
                   <Font size="13.0" />
                </font></Label>
-         </children>
-      </HBox>
-   </bottom>
-   <left>
-      <TextArea fx:id="textArea" prefHeight="643.0" prefWidth="477.0" promptText="Entrada" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextArea>
-   </left>
-   <right>
-      <TextArea fx:id="textAreaResultado" editable="false" minHeight="400.0" minWidth="200.0" prefHeight="643.0" prefWidth="464.0" promptText="Resultado" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextArea>
-   </right>
-   <center>
-      <VBox alignment="CENTER" spacing="5.0" BorderPane.alignment="CENTER">
-         <children>
             <Button alignment="CENTER" contentDisplay="RIGHT" defaultButton="true" minHeight="150.0" minWidth="200.0" mnemonicParsing="false" onAction="#converter" prefHeight="96.0" prefWidth="205.0" text="Converter" textAlignment="RIGHT" underline="true">
                <font>
                   <Font size="18.0" />
                </font></Button>
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <VBox alignment="CENTER" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextArea fx:id="textArea" prefHeight="400.0" prefWidth="750.0" promptText="Entrada">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextArea>
          </children>
       </VBox>
    </center>

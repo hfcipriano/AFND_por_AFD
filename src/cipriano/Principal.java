@@ -1,11 +1,15 @@
 package cipriano;
 
 import cipriano.view.EditorController;
+import cipriano.view.GrafoViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,7 +20,9 @@ import java.io.IOException;
 public class Principal extends Application {
 
     private Stage primaryStage;
+    private BorderPane painel;
     private EditorController editorController;
+    private GrafoViewController grafoViewController;
 
     @Override
     public void start(Stage primaryStage) {
@@ -37,7 +43,7 @@ public class Principal extends Application {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("view/Editor.fxml"));
-            BorderPane painel = (BorderPane) loader.load();
+            painel = (BorderPane) loader.load();
 
             Scene scene = new Scene(painel);
             primaryStage.setScene(scene);
@@ -46,6 +52,33 @@ public class Principal extends Application {
             editorController.setPrincipal(this);
 
             primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Instancia o editor
+     */
+    public void opentGrafoViewer() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("view/GrafoView.fxml"));
+            AnchorPane view = (AnchorPane) loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Grafo finito determinístico");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(view);
+            dialogStage.setScene(scene);
+
+            // Define a pessoa no controller.
+            GrafoViewController controller = loader.getController();
+            controller.setPrincipal(this);
+            controller.inserirImagem();
+
+            dialogStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
