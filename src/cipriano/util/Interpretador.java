@@ -3,12 +3,7 @@ package cipriano.util;
 import cipriano.model.Estado;
 import cipriano.model.Transicao;
 import cipriano.util.Enums.EstadoEnum;
-import cipriano.util.Excecoes.InterpreterException;
 import javafx.collections.ObservableList;
-import javagraphviz.src.main.java.com.couggi.javagraphviz.Digraph;
-import javagraphviz.src.main.java.com.couggi.javagraphviz.GraphvizEngine;
-import javagraphviz.src.main.java.com.couggi.javagraphviz.Node;
-import javagraphviz.src.main.java.com.couggi.javagraphviz.SubGraph;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -18,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public class Interpretador {
     //Contém todas as transições do autômato
-    private static Set<Transicao> transicaoList = new HashSet<>();
+    private static Set<Transicao> transicaoSet = new HashSet<>();
     private static String estadoInicial;
     private static List<String> estadoFinalList = new ArrayList<>();
 
@@ -41,27 +36,36 @@ public class Interpretador {
     }
 
     private static void persistirTransicaoElegivel(Transicao transicao, Set<Transicao> transicaoSet) {
-        if(!transicaoSet.stream().anyMatch(t -> t.getAtual().getNome().equals(transicao.getProximoEstadoNome()))) {
-            List<String> nomes = new ArrayList<>();
-            transicao.getProximoList().forEach(estado -> nomes.add(estado.getNome()));
+        //Verifica se já existe alguma transição equivalente a transição do proximo estado
+        if(!transicaoSet.stream().anyMatch(t -> t.getAtual().getNome().equals(transicao.getProximoEstadoNome()) && t.getCaractere().equals(transicao.getCaractere()))) {
+            Estado estado = defineEstado(transicao.getProximoEstadoNome());
 
-            Transicao transicaoElegivel = new Transicao();
-            transicaoElegivel.setAtual(defineEstado(nomes.toArray(new String[nomes.size()])));
-            transicaoElegivel.setCaractere(transicao.getCaractere());
-            nomes.forEach(nome -> transicaoElegivel.getProximoList().addAll(obterTransicaoElegivelPorNome(nome, transicaoSet).getProximoList()));
-            transicaoSet.add(transicaoElegivel);
-            persistirTransicaoElegivel(transicaoElegivel, transicaoSet);
+            //obterCaracteresPorEstadoETransicao(estado, transicao);
+            for(String caractere : obterCaracteresPorEstadoETransicao(estado, transicao)) {
+                Transicao transicaoElegivel = new Transicao();
+                transicaoElegivel.setAtual(estado);
+                transicaoElegivel.setCaractere(caractere);
+                transicaoElegivel.getProximoList().addAll(obterEstadosProximosPorEstadoAtualECaractere(estado, caractere));
+                transicaoSet.add(transicaoElegivel);
+
+                persistirTransicaoElegivel(transicaoElegivel, transicaoSet);
+            }
         }
     }
+    private static Set<String> obterCaracteresPorEstadoETransicao(Estado estado, Transicao transicao) {
+        Set<String> caracteresLidos = new HashSet<>();
+        transicaoSet.stream()
+                .filter(t -> estado.getNome().contains(t.getAtual().getNome()))
+                .forEach(t -> caracteresLidos.add(t.getCaractere()));
+        return  caracteresLidos;
+    }
 
-    private static Transicao obterTransicaoElegivelPorNome(String nome, Set<Transicao> transicaoSet) {
-        return transicaoSet.stream()
-                .filter(transicao -> transicao.getAtual().getNome().equals(nome))
-                .findFirst()
-                .orElse(transicaoList.stream()
-                        .filter(transicao -> transicao.getAtual().getNome().equals(nome))
-                        .findFirst()
-                        .orElse(new Transicao()));
+    private static List<Estado> obterEstadosProximosPorEstadoAtualECaractere(Estado atual, String caractere){
+        List<Estado> estadoList = new ArrayList<>();
+        transicaoSet.stream()
+                .filter(t -> atual.getNome().contains(t.getAtual().getNome()) && caractere.equals(t.getCaractere()))
+                .forEach(t -> estadoList.addAll(t.getProximoList()));
+        return estadoList;
     }
 
     /**
@@ -69,7 +73,7 @@ public class Interpretador {
      * @param paragrafos Lista com os dados
      */
     private static Set<Transicao> serializarTransicoes(ObservableList<CharSequence> paragrafos){
-        transicaoList.clear();
+        transicaoSet.clear();
 
         Iterator<CharSequence> iterador = paragrafos.iterator();
         estadoInicial = iterador.next().toString();
@@ -84,37 +88,32 @@ public class Interpretador {
             persistirTransicao(nomeAtual, caractereLido, nomeProximo);
         });
 
-        return new HashSet<>(transicaoList.stream().filter(transicao ->
+        return new HashSet<>(transicaoSet.stream().filter(transicao ->
                         transicao.getProximoList().size() > 1
                                 || transicao.getAtual().getEstado().equals(EstadoEnum.INICIAL)
-                                || transicao.getAtual().getEstado().equals(EstadoEnum.AMBOS)).collect(Collectors.toList()));
+                                || transicao.getAtual().getEstado().equals(EstadoEnum.AMBOS)).collect(Collectors.toSet()));
     }
 
     private static void persistirTransicao(String nomeAtual, String caractereLido, String nomeProximo) {
         Transicao transicao = new Transicao();
-        transicaoList.stream().filter(t -> t.getAtual().getNome().equals(nomeAtual) && t.getCaractere().equals(caractereLido)).findFirst().orElseGet(() -> {
+        transicaoSet.stream().filter(t -> t.getAtual().getNome().equals(nomeAtual) && t.getCaractere().equals(caractereLido)).findFirst().orElseGet(() -> {
             transicao.setAtual(defineEstado(nomeAtual));
             transicao.setCaractere(caractereLido);
-            transicaoList.add(transicao);
+            transicaoSet.add(transicao);
             return transicao;
         }).getProximoList().add(defineEstado(nomeProximo));
     }
 
-    private static Estado defineEstado(String ...nomes) {
+    private static Estado defineEstado(String nome) {
         boolean estadoFinalBool = false;
-        boolean estadoInicialBool = true;
+        boolean estadoInicialBool = false;
         Estado estado = new Estado();
+        estado.setNome(nome);
 
-        for(String nome : nomes){
-            if(estado.getNome() != null) {
-                estado.setNome(estado.getNome() + nome);
-            }
-            else {
-                estado.setNome(nome);
-            }
-            estadoFinalBool = estadoFinalBool || estadoFinalList.contains(nome);
-            estadoInicialBool = estadoInicial.equals(nome) && estadoInicialBool;
+        if(nome.equals(estadoInicial)){
+            estadoInicialBool = true;
         }
+        estadoFinalBool = estadoFinalList.stream().filter(nome::contains).findAny().isPresent();
 
         if(estadoInicialBool && estadoFinalBool){
             estado.setEstado(EstadoEnum.AMBOS);
