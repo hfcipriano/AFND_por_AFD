@@ -15,7 +15,7 @@ public class GrafoViewController {
     private Principal principal;
 
     public void inserirImagem(){
-        grafoView.setImage(new Image(principal.getClass().getResourceAsStream("resources/grafo.png")));
+        grafoView.setImage(new Image(principal.getClass().getResourceAsStream("/images/grafo.png")));
     }
 
     public void setPrincipal(Principal principal) {

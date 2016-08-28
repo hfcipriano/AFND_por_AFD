@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -28,7 +27,7 @@ public class Principal extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("AFND_por_AFD");
-        this.primaryStage.getIcons().add(new Image("/cipriano/resources/images/html_app_32.png"));
+        this.primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/html_app_32.png")));
         initEditor();
     }
 
@@ -42,7 +41,7 @@ public class Principal extends Application {
     private void initEditor() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("view/Editor.fxml"));
+            loader.setLocation(getClass().getResource("/view/Editor.fxml"));
             painel = (BorderPane) loader.load();
 
             Scene scene = new Scene(painel);
@@ -63,7 +62,7 @@ public class Principal extends Application {
     public void opentGrafoViewer() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("view/GrafoView.fxml"));
+            loader.setLocation(getClass().getResource("/view/GrafoView.fxml"));
             AnchorPane view = (AnchorPane) loader.load();
 
             Stage dialogStage = new Stage();
