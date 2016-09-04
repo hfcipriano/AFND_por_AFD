@@ -3,11 +3,14 @@ package cipriano.util;
 import cipriano.Principal;
 import cipriano.model.Transicao;
 import cipriano.util.Enums.EstadoEnum;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import guru.nidi.graphviz.attribute.Shape;
 import guru.nidi.graphviz.engine.Graphviz;
+import guru.nidi.graphviz.engine.GraphvizException;
 import guru.nidi.graphviz.model.Graph;
 import guru.nidi.graphviz.model.Link;
 import guru.nidi.graphviz.model.Node;
+import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.util.HashMap;
@@ -49,6 +52,16 @@ public class GraphvizUtil {
                 digraph = digraph.node(inicio.link(to(de)));
             }
         }
-        Graphviz.fromGraph(digraph).renderToFile(new File(Principal.class.getResource("/images").getFile().concat("/grafo.png")));
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Escolha o local de salvamento do arquivo");
+        fileChooser.setInitialFileName("grafo_AFD.png");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG Files", "*.png"));
+
+        try {
+            Graphviz.fromGraph(digraph).renderToFile(fileChooser.showSaveDialog(null));
+        }catch (RuntimeException e){
+            throw new GraphvizException("Arquivo não escolhido");
+        }
     }
 }
