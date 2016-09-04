@@ -5,6 +5,7 @@ import cipriano.model.Transicao;
 import cipriano.util.Enums.EstadoEnum;
 import javafx.collections.ObservableList;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,9 +22,9 @@ public class Interpretador {
      * Converte o AFND em AFD
      * @param paragrafos
      */
-    public static void converter(ObservableList<CharSequence> paragrafos) {
+    public static File converter(ObservableList<CharSequence> paragrafos) {
         Set<Transicao> transicaoElegivelSet = serializarTransicoes(paragrafos);
-        GraphvizUtil.gerarGrafo((gerarTransicoesConvertidas(transicaoElegivelSet)));
+        return GraphvizUtil.gerarGrafo((gerarTransicoesConvertidas(transicaoElegivelSet)));
     }
 
     /**

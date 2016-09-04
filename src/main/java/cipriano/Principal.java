@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -59,7 +60,7 @@ public class Principal extends Application {
     /**
      * Instancia o editor
      */
-    public void opentGrafoViewer() {
+    public void opentGrafoViewer(File arquivo) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/view/GrafoView.fxml"));
@@ -75,7 +76,7 @@ public class Principal extends Application {
             // Define a pessoa no controller.
             GrafoViewController controller = loader.getController();
             controller.setPrincipal(this);
-            controller.inserirImagem();
+            controller.inserirImagem(arquivo);
 
             dialogStage.showAndWait();
         } catch (IOException e) {

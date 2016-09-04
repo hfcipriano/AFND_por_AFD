@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 
+import java.io.File;
+
 
 public class EditorController {
 
@@ -54,8 +56,8 @@ public class EditorController {
 		try{
 			AnalisadorSemantico.analisa(textArea.getParagraphs());
 			labelMessage.setText("Compilado com sucesso!");
-			Interpretador.converter(textArea.getParagraphs());
-			principal.opentGrafoViewer();
+			File arquivo = Interpretador.converter(textArea.getParagraphs());
+			principal.opentGrafoViewer(arquivo);
 		}catch (RuntimeException e){
 			labelMessage.setText(e.getMessage());
 		}

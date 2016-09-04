@@ -1,9 +1,7 @@
 package cipriano.util;
 
-import cipriano.Principal;
 import cipriano.model.Transicao;
 import cipriano.util.Enums.EstadoEnum;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import guru.nidi.graphviz.attribute.Shape;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.engine.GraphvizException;
@@ -17,15 +15,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static guru.nidi.graphviz.model.Factory.graph;
-import static guru.nidi.graphviz.model.Factory.node;
-import static guru.nidi.graphviz.model.Factory.to;
+import static guru.nidi.graphviz.model.Factory.*;
 
 /**
  * Created by henrique on 26/08/16.
  */
 public class GraphvizUtil {
-    public static void gerarGrafo(Set<Transicao> transicaoSet) {
+    public static File gerarGrafo(Set<Transicao> transicaoSet) {
         Map<String, Transicao> transicaoMap = new HashMap<>();
         transicaoSet.forEach(transicao -> transicaoMap.put(transicao.toString(), transicao));
 
@@ -59,7 +55,9 @@ public class GraphvizUtil {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG Files", "*.png"));
 
         try {
-            Graphviz.fromGraph(digraph).renderToFile(fileChooser.showSaveDialog(null));
+            File file = fileChooser.showSaveDialog(null);
+            Graphviz.fromGraph(digraph).renderToFile(file);
+            return file;
         }catch (RuntimeException e){
             throw new GraphvizException("Arquivo não escolhido");
         }
