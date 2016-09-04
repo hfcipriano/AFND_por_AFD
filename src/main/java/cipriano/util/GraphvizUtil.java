@@ -6,6 +6,7 @@ import cipriano.util.Enums.EstadoEnum;
 import guru.nidi.graphviz.attribute.Shape;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.Graph;
+import guru.nidi.graphviz.model.Link;
 import guru.nidi.graphviz.model.Node;
 
 import java.io.File;
@@ -25,7 +26,8 @@ public class GraphvizUtil {
         Map<String, Transicao> transicaoMap = new HashMap<>();
         transicaoSet.forEach(transicao -> transicaoMap.put(transicao.toString(), transicao));
 
-        Graph digraph = graph("G");
+        Graph digraph = graph("G").directed();
+        digraph.general().attr("rankdir", "LR");
         boolean inicioUsed = false;
         for (Transicao transicao : transicaoSet) {
             Node inicio = null;
@@ -36,7 +38,9 @@ public class GraphvizUtil {
             }
             Node de = node(transicao.getAtual().getNome());
             Node para = node(transicao.getProximoEstadoNome());
-            digraph = digraph.node(de.link(to(para)));
+
+            Link link = to(para).attr("label", transicao.getCaractere());
+            digraph = digraph.node(de.link(link));
 
             if(transicao.getAtual().getEstado().equals(EstadoEnum.FINAL) || transicao.getAtual().getEstado().equals(EstadoEnum.AMBOS)){
                 de = de.attr(Shape.DOUBLE_CIRCLE);
