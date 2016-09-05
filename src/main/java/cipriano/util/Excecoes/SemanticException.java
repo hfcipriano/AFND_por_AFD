@@ -6,6 +6,6 @@ package cipriano.util.Excecoes;
 public class SemanticException extends RuntimeException {
 
     public SemanticException(String msg, int linha, int coluna) {
-        super("Erro de Syntaxe na linha " + linha + " e coluna " + coluna);
+        super(msg + ". (Linha: " + linha + "; Coluna: " + coluna + ")");
     }
 }

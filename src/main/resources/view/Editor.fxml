@@ -37,18 +37,40 @@
             </MenuBar>
          </top>
    <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="TOP_RIGHT">
+      <VBox>
          <children>
-            <Label fx:id="labelMessage" prefHeight="110.0" prefWidth="270.0">
-               <font>
-                  <Font size="13.0" />
-               </font></Label>
-            <Button alignment="CENTER" contentDisplay="RIGHT" defaultButton="true" minHeight="150.0" minWidth="200.0" mnemonicParsing="false" onAction="#converter" prefHeight="96.0" prefWidth="205.0" text="Converter" textAlignment="RIGHT" underline="true">
-               <font>
-                  <Font size="18.0" />
-               </font></Button>
+            <HBox alignment="CENTER" spacing="20.0" BorderPane.alignment="TOP_RIGHT">
+               <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" minHeight="56.0" minWidth="200.0" mnemonicParsing="false" onAction="#converter" prefHeight="56.0" prefWidth="205.0" text="Converter" textAlignment="CENTER" underline="true">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label fx:id="labelMessage">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
          </children>
-      </HBox>
+      </VBox>
    </bottom>
    <center>
       <VBox alignment="CENTER" spacing="5.0" BorderPane.alignment="CENTER">
