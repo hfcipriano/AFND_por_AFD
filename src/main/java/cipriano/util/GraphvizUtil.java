@@ -37,13 +37,13 @@ public class GraphvizUtil {
             }
             Node de = node(transicao.getAtual().getNome());
             Node para = node(transicao.getProximoEstadoNome());
+            if(transicao.getAtual().getEstado().equals(EstadoEnum.FINAL) || transicao.getAtual().getEstado().equals(EstadoEnum.AMBOS)){
+                de = de.attr(Shape.DOUBLE_CIRCLE);
+            }
 
             Link link = to(para).attr("label", transicao.getCaractere());
             digraph = digraph.node(de.link(link));
 
-            if(transicao.getAtual().getEstado().equals(EstadoEnum.FINAL) || transicao.getAtual().getEstado().equals(EstadoEnum.AMBOS)){
-                de = de.attr(Shape.DOUBLE_CIRCLE);
-            }
             if(inicio != null){
                 digraph = digraph.node(inicio.link(to(de)));
             }
