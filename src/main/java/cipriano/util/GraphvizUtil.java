@@ -37,7 +37,7 @@ public class GraphvizUtil {
             }
             Node de = node(transicao.getAtual().getNome());
             Node para = node(transicao.getProximoEstadoNome());
-            if(transicao.getAtual().getEstado().equals(EstadoEnum.FINAL) || transicao.getAtual().getEstado().equals(EstadoEnum.AMBOS)){
+            if(transicao.getAtual().getEstado().equals(EstadoEnum.FINAL)){
                 de = de.attr(Shape.DOUBLE_CIRCLE);
             }
 
