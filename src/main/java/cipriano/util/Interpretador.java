@@ -14,15 +14,17 @@ import java.util.stream.Collectors;
  */
 public class Interpretador {
     //Contém todas as transições do autômato
-    private static Set<Transicao> transicaoSet = new HashSet<>();
+    private static Set<Transicao> transicaoSet = new HashSet<>(); //Foi escolhido a collection Set pois ela não permite objetos repetidos
     private static String estadoInicial;
     private static List<String> estadoFinalList = new ArrayList<>();
 
     /**
      * Converte o AFND em AFD
      * @param paragrafos
+     * @return Objeto imagem gerada
      */
     public static File converter(ObservableList<CharSequence> paragrafos) {
+        AnalisadorSemantico.analisa(paragrafos);
         Set<Transicao> transicaoElegivelSet = serializarTransicoes(paragrafos);
         return GraphvizUtil.gerarGrafo((gerarTransicoesConvertidas(transicaoElegivelSet)));
     }
@@ -77,12 +79,12 @@ public class Interpretador {
         transicaoSet.clear();
 
         Iterator<CharSequence> iterador = paragrafos.iterator();
-        estadoInicial = iterador.next().toString();
-        estadoFinalList = Arrays.asList(iterador.next().toString().split(" "));
+        estadoInicial = iterador.next().toString().trim();
+        estadoFinalList = Arrays.asList(iterador.next().toString().trim().split(" "));
 
         //Itera sobre as linhas do arquivo
         iterador.forEachRemaining(paragrafo -> {
-            String[] elementos = paragrafo.toString().split(" ");
+            String[] elementos = paragrafo.toString().trim().split(" ");
             String nomeAtual = elementos[0];
             String caractereLido = elementos[1];
             String nomeProximo = elementos[2];
@@ -105,6 +107,10 @@ public class Interpretador {
         }).getProximoList().add(defineEstado(nomeProximo));
     }
 
+    /**
+     * Define o estado do objeto comparando a existencia do conteúdo da string nas listas de objetos iniciais e finais
+     * @param nome
+     */
     private static Estado defineEstado(String nome) {
         boolean estadoFinalBool = false;
         boolean estadoInicialBool = false;

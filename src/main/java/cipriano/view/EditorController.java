@@ -11,7 +11,6 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.File;
 
-
 public class EditorController {
 
 	@FXML
@@ -19,9 +18,6 @@ public class EditorController {
 
 	@FXML
 	TextArea textArea;
-
-	@FXML
-	TextArea textAreaResultado;
 
 	@FXML
 	Label labelMessage;
@@ -39,15 +35,20 @@ public class EditorController {
 		alert.setTitle("Sobre o programa");
 		alert.setHeaderText("AFND_por_AFD v1.0");
 		alert.setContentText("Desenvolvido por Henrique Cipriano \n hfcipriano@gmail.com");
-
 		alert.showAndWait();
 	}
 
 	@FXML
 	public void ajuda(){
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
-		//TODO: IMPLEMENTAR
-		alert.setTitle("TODO");
+		alert.setHeaderText("Ajuda");
+		alert.setContentText("O programa recebe como entrada um texto representativo de um dígrafo não determinístico no seguinte padrão: \n" +
+				"<estado inicial>\n" +
+				"<estado final 1> <estado final 2> <estado final n>\n" +
+				"<estado partida> <caractere lido> <estado destino>\n" +
+				"<estado partida n> <caractere lido n> <estado destino n>\n\n" +
+				"Existe um exemplo na aba Macros.");
+		alert.setTitle("AFND_por_AFD");
 		alert.showAndWait();
 	}
 

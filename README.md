@@ -4,4 +4,4 @@ Representação em Java Fx de um conversor de Autômatos finitos não determiní
 By: Henrique Cipriano / hfcipriano@gmail.com
 
 #Keywords
-Deterministic and Non Desterministic Automaton Finite, DFA, NFA
+Deterministic and Non Desterministic Automaton Finite, DAF, NAF
